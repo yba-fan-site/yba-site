@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Bizarre Adventure — Полный гайд и вики | Roblox</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #1a0a2e;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            color: #f0e6d2;
+            line-height: 1.7;
+            background-image: radial-gradient(circle at 20% 30%, #4a1e6b 5%, #1a0a2e 90%);
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem 1rem;
+            transition: all 0.8s ease;
+        }
+
+        body.dark-theme {
+            background: #000 !important;
+            background-image: url('https://images.unsplash.com/photo-1504805572947-34fad45aed93?q=80&w=2070&auto=format&fit=crop') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+        }
+        body.dark-theme::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 0;
+        }
+
+        .secret-btn {
+            position: fixed; bottom: 20px; left: 20px;
+            width: 25px; height: 25px;
+            background: rgba(212,175,55,0.3);
+            border: 2px solid rgba(212,175,55,0.5);
+            border-radius: 50%; cursor: pointer; z-index: 999;
+            transition: all 0.3s;
+        }
+        .secret-btn:hover { background: rgba(212,175,55,0.8); box-shadow: 0 0 25px #d4af37; transform: scale(1.4); }
+        .secret-hint { position: fixed; bottom: 28px; left: 55px; color: #d4af37; font-size: 13px; z-index: 999; opacity: 0.7; font-weight: bold; }
+        .theme-indicator { position: fixed; bottom: 60px; left: 20px; z-index: 999; background: rgba(0,0,0,0.9); color: #d4af37; padding: 8px 15px; border-radius: 20px; font-size: 12px; opacity: 0; transition: all 0.5s; }
+        .theme-indicator.show { opacity: 1; }
+
+        .lang-switcher {
+            position: fixed; top: 20px; right: 20px; z-index: 999;
+            display: flex; gap: 8px;
+            background: rgba(30,10,50,0.95); backdrop-filter: blur(10px);
+            padding: 5px; border-radius: 30px; border: 2px solid #c9a063;
+        }
+        body.dark-theme .lang-switcher { background: rgba(0,0,0,0.95); border-color: #ff4444; }
+
+        .lang-btn {
+            background: transparent; border: 2px solid transparent;
+            color: #d4af37; padding: 8px 15px; border-radius: 25px;
+            font-weight: bold; font-size: 14px; cursor: pointer;
+            transition: all 0.3s; text-transform: uppercase;
+        }
+        .lang-btn:hover { border-color: #e0b354; color: white; }
+        .lang-btn.active-lang { background: #9b4dca; border-color: #f3cd54; color: white; font-weight: 800; box-shadow: 0 0 15px #c27e2e; }
+        body.dark-theme .lang-btn.active-lang { background: #8b0000; border-color: #ff4444; }
+
+        .main-card {
+            max-width: 1000px; width: 100%;
+            background: rgba(30,10,50,0.85); backdrop-filter: blur(20px);
+            border: 2px solid #c9a063; border-radius: 30px; padding: 25px;
+            position: relative; z-index: 1; transition: all 0.5s;
+        }
+        body.dark-theme .main-card { background: rgba(0,0,0,0.85); border-color: #8b0000; }
+
+        h1 {
+            font-size: 2.5rem; font-weight: 900; text-transform: uppercase;
+            text-align: center; color: #fadf8a;
+            text-shadow: 0 0 15px #b85e0c, 0 0 30px #9b4dca; margin-bottom: 10px;
+        }
+        body.dark-theme h1 { color: #ff4444; text-shadow: 0 0 20px #ff0000; }
+
+        .subtitle {
+            text-align: center; font-size: 1.2rem; color: #dbb45c;
+            background: rgba(60,20,80,0.7); display: inline-block;
+            padding: 8px 25px; border-radius: 25px;
+            margin: 10px auto 20px; border: 1px solid #ab8b4c;
+        }
+        body.dark-theme .subtitle { background: rgba(20,0,0,0.8); color: #ff6666; border-color: #8b0000; }
+        .title-wrapper { display: flex; flex-direction: column; align-items: center; }
+
+        .tabs-container {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;
+            margin: 20px 0; background: rgba(40,15,65,0.6);
+            padding: 8px; border-radius: 30px;
+        }
+        body.dark-theme .tabs-container { background: rgba(0,0,0,0.8); }
+
+        .tab-btn {
+            background: transparent; border: 2px solid #9b4dca;
+            color: #d4af37; padding: 10px 15px; border-radius: 25px;
+            font-weight: bold; font-size: 14px; cursor: pointer;
+            transition: all 0.3s; text-transform: uppercase;
+        }
+        .tab-btn:hover { background: #6b3fa0; border-color: #e0b354; color: white; }
+        .tab-btn.active { background: #9b4dca; border-color: #f3cd54; color: white; box-shadow: 0 0 20px #c27e2e; }
+        body.dark-theme .tab-btn { border-color: #8b0000; color: #ff6666; }
+        body.dark-theme .tab-btn.active { background: #8b0000; border-color: #ff4444; }
+
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .features-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 20px 0; }
+        .feature-box {
+            background: rgba(50,20,80,0.8); border: 2px solid #9b4dca;
+            border-radius: 20px; padding: 20px; flex: 1 1 180px;
+            min-width: 150px; text-align: center; transition: all 0.3s; position: relative;
+        }
+        .feature-box:hover { transform: translateY(-5px); border-color: #e0b354; }
+        body.dark-theme .feature-box { background: rgba(0,0,0,0.8); border-color: #8b0000; }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .feature-box h3 { color: #f3cd81; font-size: 1.1rem; margin: 5px 0; }
+
+        .new-badge {
+            position: absolute; top: -10px; right: -10px;
+            background: #e03a3a; color: white; font-weight: bold;
+            font-size: 11px; padding: 3px 10px; border-radius: 15px;
+            box-shadow: 0 0 15px #ff4d4d; transform: rotate(5deg);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%,100%{box-shadow:0 0 15px #ff4d4d} 50%{box-shadow:0 0 25px #ff4d4d} }
+
+        .top-tier-card {
+            background: linear-gradient(135deg, #3d1a5c, #1e0a30);
+            border: 2px solid #f3cd54; border-radius: 20px;
+            padding: 20px; margin: 15px 0;
+        }
+        body.dark-theme .top-tier-card { background: linear-gradient(135deg, #1a0000, #0a0000); border-color: #ff4444; }
+        .tier-badge { display: inline-block; background: #f3cd54; color: #1a0a2e; font-weight: 900; padding: 5px 15px; border-radius: 20px; }
+        body.dark-theme .tier-badge { background: #ff4444; color: #000; }
+
+        .info-block {
+            background: rgba(40,15,65,0.7); border-radius: 20px;
+            padding: 20px; margin: 15px 0; border: 1px solid #9b4dca;
+        }
+        body.dark-theme .info-block { background: rgba(0,0,0,0.8); border-color: #8b0000; }
+
+        .btn {
+            display: inline-block; background: linear-gradient(180deg, #6b3fa0, #3d1a5c);
+            border: 2px solid #cf9f4b; color: #f6e3b3; font-weight: bold;
+            padding: 12px 25px; border-radius: 25px; text-decoration: none;
+            transition: all 0.3s; text-transform: uppercase; margin: 5px;
+        }
+        .btn:hover { background: #9b4dca; border-color: #f3b54a; color: white; }
+        body.dark-theme .btn { background: linear-gradient(180deg, #8b0000, #4a0000); border-color: #ff4444; }
+
+        h2 { color: #fadf8a; text-align: center; margin: 15px 0; text-shadow: 0 0 10px #9b4dca; }
+        body.dark-theme h2 { color: #ff6666; text-shadow: 0 0 10px #ff0000; }
+
+        .stand-badge {
+            background: #3d1a5c; border: 1px solid #c9a063;
+            border-radius: 20px; padding: 8px 15px; color: #ffe4a8;
+            display: inline-block; margin: 3px; font-size: 13px;
+        }
+        body.dark-theme .stand-badge { background: #1a0000; border-color: #8b0000; color: #ff8888; }
+
+        .gang-card {
+            background: rgba(40,15,65,0.9); border: 2px solid #9b4dca;
+            border-radius: 20px; padding: 20px; margin: 15px 0;
+        }
+        body.dark-theme .gang-card { background: rgba(0,0,0,0.9); border-color: #8b0000; }
+        .gang-card.dt { border-color: #8b0000; }
+        .gang-card.nk { border-color: #006400; }
+        .gang-card.twlz { border-color: #4b0082; }
+        .gang-card h3 { color: #f3cd54; text-align: center; margin-bottom: 10px; font-size: 1.3rem; }
+
+        .member-list { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 10px 0; }
+        .member-tag {
+            background: #2a1040; border: 1px solid #c9a063;
+            border-radius: 15px; padding: 5px 12px; font-size: 13px; color: #ffe4a8;
+        }
+        body.dark-theme .member-tag { background: #1a0000; border-color: #8b0000; }
+
+        .video-link { color: #ff6b6b; font-weight: bold; }
+        .glossary-term { color: #f3cd54; font-weight: bold; font-size: 1.1rem; }
+
+        .stat-row {
+            display: flex; justify-content: space-between; padding: 8px 0;
+            border-bottom: 1px dashed #6b3fa0; margin: 5px 0;
+        }
+        body.dark-theme .stat-row { border-bottom-color: #4a0000; }
+
+        /* ТИР-ЛИСТ */
+        .tier-list-section {
+            background: rgba(30,10,50,0.9);
+            border-radius: 20px; padding: 20px;
+            margin: 20px 0; border: 2px solid #f3cd54;
+        }
+        body.dark-theme .tier-list-section { background: rgba(0,0,0,0.9); border-color: #ff4444; }
+
+        .tier-row { display: flex; align-items: flex-start; margin: 10px 0; gap: 15px; flex-wrap: wrap; }
+
+        .tier-label {
+            font-weight: 900; font-size: 1.4rem; min-width: 50px;
+            text-align: center; padding: 8px 15px; border-radius: 15px; letter-spacing: 2px;
+        }
+
+        /* S+ - ЧЁРНЫЙ */
+        .tier-s-plus {
+            background: linear-gradient(45deg, #000000, #1a1a1a, #333333, #000000);
+            background-size: 300% 300%;
+            animation: rainbowS 2s ease infinite;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ffffff;
+        }
+        @keyframes rainbowS {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* S- - СИНИЙ */
+        .tier-s-minus {
+            background: linear-gradient(45deg, #0033cc, #0044ff, #0066ff, #0033cc);
+            background-size: 300% 300%;
+            animation: rainbowSminus 2s ease infinite;
+            color: #ffffff;
+            text-shadow: 0 0 10px #0044ff;
+        }
+        @keyframes rainbowSminus {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* A+ - РОЗОВЫЙ */
+        .tier-a-plus {
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff85c0, #ff69b4);
+            background-size: 300% 300%;
+            animation: rainbowAplus 2s ease infinite;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ff69b4;
+        }
+        @keyframes rainbowAplus {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* A- - ФИОЛЕТОВЫЙ */
+        .tier-a-minus {
+            background: linear-gradient(45deg, #7b2d8b, #9b4dca, #b77dff, #7b2d8b);
+            background-size: 300% 300%;
+            animation: rainbowAminus 2s ease infinite;
+            color: #ffffff;
+            text-shadow: 0 0 10px #9b4dca;
+        }
+        @keyframes rainbowAminus {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* B+ - КОРИЧНЕВЫЙ */
+        .tier-b-plus {
+            background: linear-gradient(45deg, #5c3317, #8b4513, #a0522d, #5c3317);
+            background-size: 300% 300%;
+            animation: rainbowBplus 2s ease infinite;
+            color: #ffffff;
+            text-shadow: 0 0 10px #8b4513;
+        }
+        @keyframes rainbowBplus {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .tier-players { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; flex: 1; }
+
+        .player-tag {
+            background: rgba(50,20,80,0.8); border: 1px solid #c9a063;
+            border-radius: 15px; padding: 4px 12px; font-size: 13px;
+            color: #ffe4a8; transition: all 0.3s;
+        }
+        body.dark-theme .player-tag { background: rgba(20,0,0,0.8); border-color: #8b0000; color: #ff8888; }
+        .player-tag:hover { background: #f3cd54; color: #1a0a2e; transform: scale(1.05); }
+
+        /* ВИДЕО-ПЛЕЕРЫ */
+        .video-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .video-container {
+            flex: 1 1 300px;
+            min-width: 250px;
+            border: 2px solid #f3cd54;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(243,205,84,0.3);
+        }
+        body.dark-theme .video-container { border-color: #ff4444; box-shadow: 0 0 20px rgba(255,68,68,0.3); }
+        .video-container iframe { width: 100%; height: 200px; border: none; }
+
+        .footer-note { text-align: center; margin-top: 30px; color: #96866e; font-size: 13px; border-top: 1px dashed #5e4a32; padding-top: 15px; }
+        .lang-ru, .lang-en { transition: all 0.3s; }
+        .hidden-lang { display: none !important; }
+        p { margin-bottom: 8px; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .tab-btn { font-size: 11px; padding: 8px 10px; }
+            .main-card { padding: 15px; }
+            .tier-row { flex-direction: column; }
+            .tier-label { width: 100%; }
+        }
+    </style>
+</head>
+<body id="mainBody">
+
+    <button class="secret-btn" id="secretBtn" title="Нажми 3 раза"></button>
+    <div class="secret-hint">🔮 Нажми 3 раза</div>
+    <div class="theme-indicator" id="themeIndicator"></div>
+
+    <div class="lang-switcher">
+        <button class="lang-btn active-lang" id="lang-ru" onclick="switchLanguage('ru')">🇷🇺 RU</button>
+        <button class="lang-btn" id="lang-en" onclick="switchLanguage('en')">🇬🇧 EN</button>
+    </div>
+
+    <div class="main-card">
+        <div class="title-wrapper">
+            <h1>✨ YOUR BIZARRE ADVENTURE ✨</h1>
+            <span class="subtitle lang-ru">JoJo's Bizarre Adventure • Roblox</span>
+            <span class="subtitle lang-en hidden-lang">JoJo's Bizarre Adventure • Roblox</span>
+        </div>
+
+        <div class="tabs-container">
+            <button class="tab-btn active" id="tab-overview"><span class="lang-ru">🏠 Обзор</span><span class="lang-en hidden-lang">🏠 Overview</span></button>
+            <button class="tab-btn" id="tab-stands"><span class="lang-ru">🌀 Стенды</span><span class="lang-en hidden-lang">🌀 Stands</span></button>
+            <button class="tab-btn" id="tab-competitive"><span class="lang-ru">🏆 Компетитив</span><span class="lang-en hidden-lang">🏆 Competitive</span></button>
+            <button class="tab-btn" id="tab-gangs"><span class="lang-ru">💀 Генги</span><span class="lang-en hidden-lang">💀 Gangs</span></button>
+            <button class="tab-btn" id="tab-guide"><span class="lang-ru">📘 Гайд</span><span class="lang-en hidden-lang">📘 Guide</span></button>
+            <button class="tab-btn" id="tab-lore"><span class="lang-ru">📜 Лор</span><span class="lang-en hidden-lang">📜 Lore</span></button>
+        </div>
+
+        <!-- ===== ОБЗОР ===== -->
+        <div class="tab-content active" id="content-overview">
+            <p class="lang-ru" style="text-align:center; font-size:1.1rem; color:#ddd0b5;">
+                Добро пожаловать в <strong>Your Bizarre Adventure (YBA)</strong> — самую популярную RPG по вселенной JoJo's Bizarre Adventure на платформе Roblox! Игра собрала более 2 миллиардов посещений и продолжает активно развиваться. Здесь вас ждут уникальные стенды, захватывающие PvP-сражения, глубокий сюжет и огромное комьюнити преданных фанатов. Постоянные обновления, новые способности, редкие скины и легендарные стенды делают YBA одной из лучших игр на Roblox.
+            </p>
+            <p class="lang-en hidden-lang" style="text-align:center; font-size:1.1rem; color:#ddd0b5;">
+                Welcome to <strong>Your Bizarre Adventure (YBA)</strong> — the most popular JoJo's Bizarre Adventure RPG on Roblox! The game has gathered over 2 billion visits and continues to evolve actively. Here you'll find unique stands, exciting PvP battles, a deep storyline, and a huge community of dedicated fans. Constant updates, new abilities, rare skins, and legendary stands make YBA one of the best games on Roblox.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-icon">⚔️</div>
+                    <h3 class="lang-ru">PvP Арены</h3><h3 class="lang-en hidden-lang">PvP Arenas</h3>
+                    <p class="lang-ru">Сражения 1x1, 2x2, командные битвы, турниры и рейтинговые бои. Докажи своё превосходство!</p>
+                    <p class="lang-en hidden-lang">1v1, 2v2, team battles, tournaments, and ranked fights. Prove your superiority!</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">👾</div>
+                    <h3 class="lang-ru">PvE Миссии</h3><h3 class="lang-en hidden-lang">PvE Missions</h3>
+                    <p class="lang-ru">Эпические сражения с сюжетными боссами, рейды и данжи. Фарми опыт и редкий лут!</p>
+                    <p class="lang-en hidden-lang">Epic battles with story bosses, raids, and dungeons. Farm XP and rare loot!</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">⭐</div>
+                    <h3 class="lang-ru">Редкие Стенды</h3><h3 class="lang-en hidden-lang">Rare Stands</h3>
+                    <p class="lang-ru">Шанс выпадения от 0.1% до 100%. Охоться за легендарными и мифическими стендами!</p>
+                    <p class="lang-en hidden-lang">Drop chances from 0.1% to 100%. Hunt for legendary and mythical stands!</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">💎</div>
+                    <h3 class="lang-ru">Экономика</h3><h3 class="lang-en hidden-lang">Economy</h3>
+                    <p class="lang-ru">Торговля между игроками, редкие предметы, скины, стрелы и косметические улучшения.</p>
+                    <p class="lang-en hidden-lang">Player trading, rare items, skins, arrows, and cosmetic upgrades.</p>
+                </div>
+                <div class="feature-box">
+                    <span class="new-badge">NEW</span>
+                    <div class="feature-icon">📦</div>
+                    <h3>Stand Storage</h3>
+                    <p class="lang-ru">Хранилище стендов — сохраняй несколько стендов одновременно и переключайся между ними!</p>
+                    <p class="lang-en hidden-lang">Stand Storage — save multiple stands at once and switch between them!</p>
+                </div>
+            </div>
+
+            <div class="info-block">
+                <h3 style="color:#edc26b;" class="lang-ru">🎮 О плейсе</h3>
+                <h3 style="color:#edc26b;" class="lang-en hidden-lang">🎮 About the Game</h3>
+                <p class="lang-ru"><strong>Создатель:</strong> Bizarrian (Uzukee) — легендарный разработчик Roblox<br>
+                <strong>Дата выхода:</strong> 2019 год (глобальный перезапуск игры)<br>
+                <strong>Посещений:</strong> более 2 000 000 000 (два миллиарда!)<br>
+                <strong>Жанр:</strong> RPG по вселенной JoJo's Bizarre Adventure<br>
+                <strong>Платформы:</strong> ПК, Мобильные устройства, Xbox, PlayStation</p>
+                <p class="lang-en hidden-lang"><strong>Creator:</strong> Bizarrian (Uzukee) — legendary Roblox developer<br>
+                <strong>Release:</strong> 2019 (global relaunch)<br>
+                <strong>Visits:</strong> over 2,000,000,000<br>
+                <strong>Genre:</strong> JoJo's Bizarre Adventure RPG<br>
+                <strong>Platforms:</strong> PC, Mobile, Xbox, PlayStation</p>
+                <div style="margin-top:15px;">
+                    <a href="https://www.roblox.com/games/2809202155/Your-Bizarre-Adventure" target="_blank" class="btn"><span class="lang-ru">🎯 ИГРАТЬ СЕЙЧАС</span><span class="lang-en hidden-lang">🎯 PLAY NOW</span></a>
+                    <a href="https://your-bizarre-adventure.fandom.com/wiki/Your_Bizarre_Adventure_Wiki" target="_blank" class="btn"><span class="lang-ru">📖 ВИКИ</span><span class="lang-en hidden-lang">📖 WIKI</span></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== СТЕНДЫ ===== -->
+        <div class="tab-content" id="content-stands">
+            <h2 class="lang-ru">🌀 Популярные стенды и специализации</h2>
+            <h2 class="lang-en hidden-lang">🌀 Popular Stands & Specializations</h2>
+            <p class="lang-ru" style="text-align:center; color:#cfbc93;">В YBA существует огромное разнообразие стендов — от обычных до мифических. Каждый стенд обладает уникальными способностями и стилем игры. Стенды можно эволюционировать до реквием-версий, открывая новые возможности и усиливая характеристики.</p>
+            <p class="lang-en hidden-lang" style="text-align:center; color:#cfbc93;">YBA features a huge variety of stands — from common to mythical. Each stand has unique abilities and playstyle. Stands can be evolved into requiem versions, unlocking new possibilities and enhancing stats.</p>
+            <div class="info-block">
+                <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:center;">
+                    <span class="stand-badge">🌟 Star Platinum</span>
+                    <span class="stand-badge">⏱️ The World</span>
+                    <span class="stand-badge">💎 Crazy Diamond</span>
+                    <span class="stand-badge">🔴 King Crimson</span>
+                    <span class="stand-badge">🐍 Whitesnake</span>
+                    <span class="stand-badge">✝️ Gold Experience</span>
+                    <span class="stand-badge">🌀 Tusk Act 4</span>
+                    <span class="stand-badge">⚔️ Silver Chariot</span>
+                    <span class="stand-badge">🔥 Magician's Red</span>
+                    <span class="stand-badge">👻 The Hand</span>
+                    <span class="stand-badge">🎭 Killer Queen</span>
+                    <span class="stand-badge">💀 D4C</span>
+                    <span class="stand-badge">🦅 Aerosmith</span>
+                    <span class="stand-badge">🎱 Sex Pistols</span>
+                </div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-box"><h3>⚡ Hamon</h3><p class="lang-ru">Древняя техника боевых искусств, использующая энергию дыхания. Усиливает атаки и позволяет наносить урон вампирам. Идеально для начинающих.</p><p class="lang-en hidden-lang">Ancient martial arts technique using breathing energy. Enhances attacks and damages vampires. Perfect for beginners.</p></div>
+                <div class="feature-box"><h3>🌀 Spin</h3><p class="lang-ru">Техника вращения, использующая золотое сечение. Позволяет метать предметы с невероятной силой и точностью. Высокий потенциал урона.</p><p class="lang-en hidden-lang">Rotation technique using the golden ratio. Allows throwing objects with incredible force and precision. High damage potential.</p></div>
+                <div class="feature-box"><h3>🧛 Vampire</h3><p class="lang-ru">Стань вампиром! Получи регенерацию здоровья, сверхчеловеческую силу и скорость. Способность высасывать кровь восстанавливает HP.</p><p class="lang-en hidden-lang">Become a vampire! Gain health regeneration, superhuman strength and speed. Blood-sucking ability restores HP.</p></div>
+                <div class="feature-box"><h3>🥊 Boxing</h3><p class="lang-ru">Мощный боевой стиль с разрушительными комбо. Идеально сочетается со стендами ближнего боя. Даёт пробив и скорость атаки.</p><p class="lang-en hidden-lang">Powerful fighting style with devastating combos. Perfectly pairs with close-range stands. Gives penetration and attack speed.</p></div>
+                <div class="feature-box"><span class="new-badge">NEW</span><h3>📦 Stand Storage</h3><p class="lang-ru">Уникальное хранилище, позволяющее сохранять несколько стендов одновременно и переключаться между ними в любой момент!</p><p class="lang-en hidden-lang">Unique storage allowing you to save multiple stands at once and switch between them anytime!</p></div>
+            </div>
+        </div>
+
+        <!-- ===== КОМПЕТИТИВ ===== -->
+        <div class="tab-content" id="content-competitive">
+            <h2 class="lang-ru">🏆 КОМПЕТИТИВНЫЙ РЕЖИМ</h2>
+            <h2 class="lang-en hidden-lang">🏆 COMPETITIVE MODE</h2>
+            <p style="text-align:center; color:#cfbc93;" class="lang-ru">Топ-связки для трайхард игры и PvP-доминирования. Эти комбинации считаются сильнейшими в текущей мете и используются топовыми игроками.</p>
+            <p style="text-align:center; color:#cfbc93;" class="lang-en hidden-lang">Top combos for tryhard gameplay and PvP domination. These combinations are considered the strongest in the current meta and are used by top players.</p>
+
+            <div class="top-tier-card">
+                <h3><span class="tier-badge">S+ TIER</span> <span class="lang-ru">Имба-связки</span><span class="lang-en hidden-lang">Meta Combos</span></h3>
+                <div style="display:flex; flex-wrap:wrap; gap:15px; margin-top:15px; justify-content:center;">
+                    <div class="feature-box" style="flex:1 1 250px; border-color:#f3cd54;">
+                        <div class="feature-icon">💎</div><h3>Gold Experience Requiem</h3><p>➕ <strong>Boxing</strong></p>
+                        <p style="font-size:0.85rem; color:#cfbc93;" class="lang-ru">Бесконечный контроль, регенерация и оглушение. GER возвращает урон врагу. С Boxing — дополнительный пробив и скорость. Почти неубиваем.</p>
+                        <p style="font-size:0.85rem; color:#cfbc93;" class="lang-en hidden-lang">Infinite control, regeneration and stun. GER reflects damage back. With Boxing — extra penetration and speed. Nearly unkillable.</p>
+                    </div>
+                    <div class="feature-box" style="flex:1 1 250px; border-color:#f3cd54;">
+                        <div class="feature-icon">🌟</div><h3>Star Platinum</h3><p>➕ <strong>Boxing</strong></p>
+                        <p style="font-size:0.85rem; color:#cfbc93;" class="lang-ru">Остановка времени + мощнейшие комбо. Огромный урон в ближнем бою. Boxing даёт пробив и комбо-потенциал.</p>
+                        <p style="font-size:0.85rem; color:#cfbc93;" class="lang-en hidden-lang">Time stop + powerful combos. Huge close combat damage. Boxing gives penetration and combo potential.</p>
+                    </div>
+                    <div class="feature-box" style="flex:1 1 250px; border-color:#f3cd54;">
+                        <div class="feature-icon">🔴</div><h3>King Crimson Requiem</h3><p>➕ <strong>Boxing</strong></p>
+                        <p style="font-size:0.85rem; color:#cfbc93;" class="lang-ru">Пропуск времени и непредсказуемые атаки. Boxing усиливает комбо, добавляя пробивной урон. Сложен, но эффективен.</p>
+                        <p style="font-size:0.85rem; color:#cfbc93;" class="lang-en hidden-lang">Time skip and unpredictable attacks. Boxing enhances combos with penetration damage. Difficult but effective.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРИМЕР СИЛЬНОГО ГЕЙМПЛЕЯ -->
+            <div class="info-block">
+                <h3 style="color:#f3cd54; text-align:center;">🎥 ПРИМЕР СИЛЬНОГО ГЕЙМПЛЕЯ</h3>
+                <div class="video-grid">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/nYvjP4iS3TM" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/zVNAS4eXpEI" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/nJt-HUyTRm4" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ТИР-ЛИСТ ИГРОКОВ -->
+            <div class="tier-list-section">
+                <h2 style="color:#f3cd54; text-align:center; margin-bottom:20px;">📊 ТИР-ЛИСТ ИГРОКОВ YBA</h2>
+                <div class="tier-row">
+                    <div class="tier-label tier-s-plus">S+</div>
+                    <div class="tier-players">
+                        <span class="player-tag">SanyaPEP (KCR)</span><span class="player-tag">Attomex</span><span class="player-tag">Prayer</span><span class="player-tag">Axxtril</span><span class="player-tag">Akklox</span><span class="player-tag">Sajenec</span><span class="player-tag">Flastar (Seikiiro)</span><span class="player-tag">Frozen</span><span class="player-tag">Ceob</span><span class="player-tag">Fallen</span><span class="player-tag">TORNADO</span><span class="player-tag">Ef7m</span><span class="player-tag">Wex</span><span class="player-tag">CGG</span><span class="player-tag">Digger</span>
+                    </div>
+                </div>
+                <div class="tier-row">
+                    <div class="tier-label tier-s-minus">S-</div>
+                    <div class="tier-players">
+                        <span class="player-tag">Kashak</span><span class="player-tag">Ярик-Юба</span><span class="player-tag">Zitler</span><span class="player-tag">KirillTsoy</span><span class="player-tag">Ryuma</span><span class="player-tag">Apapasin</span><span class="player-tag">itzchortik</span><span class="player-tag">Klinge</span><span class="player-tag">Fleemo</span><span class="player-tag">Jo9v (KCR)</span><span class="player-tag">Heartless</span><span class="player-tag">PopaThugHunter (GER)</span>
+                    </div>
+                </div>
+                <div class="tier-row">
+                    <div class="tier-label tier-a-plus">A+</div>
+                    <div class="tier-players">
+                        <span class="player-tag">Zaza</span><span class="player-tag">Pakoratel</span><span class="player-tag">Clyde</span><span class="player-tag">Primo4ka227</span><span class="player-tag">L1step (GER)</span><span class="player-tag">Aby</span><span class="player-tag">Heavenly</span><span class="player-tag">Forken3m</span><span class="player-tag">JogleZL</span><span class="player-tag">Sdanater</span><span class="player-tag">Talantik</span>
+                    </div>
+                </div>
+                <div class="tier-row">
+                    <div class="tier-label tier-a-minus">A-</div>
+                    <div class="tier-players">
+                        <span class="player-tag">Jbuhriak</span><span class="player-tag">Etzaard</span><span class="player-tag">St2rm</span><span class="player-tag">DisperXD</span><span class="player-tag">Adewintor</span><span class="player-tag">Raccer</span><span class="player-tag">Lcan</span><span class="player-tag">Sosiska</span><span class="player-tag">Onix</span>
+                    </div>
+                </div>
+                <div class="tier-row">
+                    <div class="tier-label tier-b-plus">B+</div>
+                    <div class="tier-players">
+                        <span class="player-tag">Gafada</span><span class="player-tag">Kacherga</span><span class="player-tag">Brazagi</span><span class="player-tag">Нарезчик</span><span class="player-tag">Zamorozka</span><span class="player-tag">Eka</span><span class="player-tag">Rusliler</span><span class="player-tag">Azria</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-block">
+                <h3 style="color:#f3cd54; text-align:center;"><span class="lang-ru">📖 СЛОВАРЬ КОМПЕТИТИВЩИКА</span><span class="lang-en hidden-lang">📖 COMPETITIVE GLOSSARY</span></h3>
+                <div style="background:rgba(30,10,50,0.8); border-radius:15px; padding:20px; margin:15px 0;">
+                    <p><span class="glossary-term">🦁 <span class="lang-ru">ПРАЙД (Pride)</span><span class="lang-en hidden-lang">PRIDE</span></span></p>
+                    <p class="lang-ru" style="margin-top:10px;"><strong>Прайд</strong> — это демонстрация превосходства над другими игроками после победы в бою. Когда ты победил соперника, ты можешь «выложить прайд» — использовать насмешки, эмоции или просто стоять над телом врага, показывая кто здесь главный. Это элемент психологического давления и способ утвердить свой статус в комьюнити. Часто сопровождается фразами «sit», «ez», «L bozo». В YBA прайд — это неотъемлемая часть PvP-культуры.</p>
+                    <p class="lang-en hidden-lang" style="margin-top:10px;"><strong>Pride</strong> is a demonstration of superiority over other players after winning a fight. When you defeat an opponent, you can "drop pride" — use taunts, emotes, or just stand over the enemy's body showing who's boss. It's an element of psychological pressure and a way to assert your status. Often accompanied by phrases like "sit", "ez", "L bozo". In YBA, pride is an integral part of PvP culture.</p>
+                </div>
+                <div style="background:rgba(30,10,50,0.8); border-radius:15px; padding:20px;">
+                    <p><span class="glossary-term">⚡ <span class="lang-ru">ПРАЙМ (Prime)</span><span class="lang-en hidden-lang">PRIME</span></span></p>
+                    <p class="lang-ru" style="margin-top:10px;"><strong>Прайм</strong> — это пиковое состояние игрока, его максимальная игровая форма. Когда ты «на прайме», ты играешь без ошибок, идеально таймишь способности, читаешь противника на несколько шагов вперёд и не теряешь концентрацию. Это момент абсолютного фокуса, когда твой скилл достигает предела и ты способен победить практически любого. Противоположность — «тильт» или спад.</p>
+                    <p class="lang-en hidden-lang" style="margin-top:10px;"><strong>Prime</strong> is the peak state of a player, their maximum gaming form. When you're "in prime", you play without mistakes, perfectly time abilities, read your opponent several steps ahead, and don't lose concentration. This is a moment of absolute focus when your skill reaches its limit and you're able to defeat almost anyone. The opposite is "tilt" or slump.</p>
+                </div>
+            </div>
+            <p style="text-align:center; color:#cfbc93; margin-top:15px;" class="lang-ru">💡 <strong>Совет трайхардера:</strong> Учи мувсеты, тренируй комбо на манекенах и всегда держи прайм!</p>
+            <p style="text-align:center; color:#cfbc93; margin-top:15px;" class="lang-en hidden-lang">💡 <strong>Tryhard tip:</strong> Learn movesets, practice combos on dummies, and always stay in prime!</p>
+        </div>
+
+        <!-- ===== ГЕНГИ ===== -->
+        <div class="tab-content" id="content-gangs">
+            <h2 class="lang-ru">💀 ГЕНГИ, ОГВ И ГЕНГ-ВАРЫ</h2>
+            <h2 class="lang-en hidden-lang">💀 GANGS, OGW & GANG WARS</h2>
+
+            <div class="info-block">
+                <h3 style="color:#f3cd54;"><span class="lang-ru">📖 СЛОВАРЬ ТЕРМИНОВ</span><span class="lang-en hidden-lang">📖 GLOSSARY</span></h3>
+                <div style="background:rgba(30,10,50,0.8); border-radius:15px; padding:20px; margin:15px 0;">
+                    <p><span class="glossary-term">💀 <span class="lang-ru">ГЕНГИ (Gangs)</span><span class="lang-en hidden-lang">GANGS</span></span></p>
+                    <p class="lang-ru" style="margin-top:10px;"><strong>Генги</strong> — это организованные группы людей, которые вместе играют в YBA на постоянной основе. Они помогают друг другу в PvP, совместно защищают сервера от вражеских группировок, вместе фармят ресурсы и участвуют в масштабных битвах. Это как кланы или гильдии в других онлайн-играх. У каждого генга есть своя иерархия (лидеры, офицеры, мемберы), правила, тематика и требования к участникам. Генги — важнейшая часть социальной структуры YBA.</p>
+                    <p class="lang-en hidden-lang" style="margin-top:10px;"><strong>Gangs</strong> are organized groups of people who play YBA together on a regular basis. They help each other in PvP, jointly defend servers from enemy groups, farm resources together, and participate in large-scale battles. They are like clans or guilds in other online games. Each gang has its own hierarchy (leaders, officers, members), rules, theme, and requirements for participants. Gangs are an essential part of YBA's social structure.</p>
+                </div>
+                <div style="background:rgba(30,10,50,0.8); border-radius:15px; padding:20px; margin:15px 0;">
+                    <p><span class="glossary-term">⚔️ <span class="lang-ru">ОГВ (Организованный Генг Вар)</span><span class="lang-en hidden-lang">OGW (Organized Gang War)</span></span></p>
+                    <p class="lang-ru" style="margin-top:10px;"><strong>ОГВ</strong> — это Организованный Генг Вар, в котором есть строгие правила и регламент. В классическом ОГВ участвуют ровно <strong>10 человек — по 5 с каждой стороны</strong>. Это командное сражение, где критически важны координация действий, правильно подобранные связки стендов и специализаций, тактическое мышление и коммуникация. Побеждает та команда, которая полностью уничтожит всех противников. ОГВ — это высший уровень соревновательной игры в YBA.</p>
+                    <p class="lang-en hidden-lang" style="margin-top:10px;"><strong>OGW</strong> is an Organized Gang War with strict rules and regulations. A classic OGW involves exactly <strong>10 players — 5 on each side</strong>. This is a team battle where coordination, properly selected stand and specialization combinations, tactical thinking, and communication are critically important. The team that completely eliminates all opponents wins. OGW is the highest level of competitive play in YBA.</p>
+                </div>
+                <div style="background:rgba(30,10,50,0.8); border-radius:15px; padding:20px;">
+                    <p><span class="glossary-term">🔥 <span class="lang-ru">ГЕНГ-ВАРЫ (Gang Wars)</span><span class="lang-en hidden-lang">GANG WARS</span></span></p>
+                    <p class="lang-ru" style="margin-top:10px;"><strong>Генг-Вары</strong> — это масштабные хаотичные битвы между генгами, в которых могут участвовать от <strong>10 до 30 человек</strong> одновременно. Цель генг-вара — полностью вытеснить вражеский генг с сервера и <strong>«взять пик»</strong>. Пик — это ритуал, когда после победы все участники победившего генга выстраиваются в линию и делают скриншот, подтверждая своё доминирование и унижая противника. Это символ триумфа и главное доказательство победы в генг-варе.</p>
+                    <p class="lang-en hidden-lang" style="margin-top:10px;"><strong>Gang Wars</strong> are large-scale chaotic battles between gangs, which can involve from <strong>10 to 30 players</strong> simultaneously. The goal of a gang war is to completely push the enemy gang off the server and <strong>"take the pic"</strong>. The pic is a ritual where after victory, all members of the winning gang line up and take a screenshot, confirming their dominance and humiliating the opponent. It is a symbol of triumph and the main proof of victory in a gang war.</p>
+                </div>
+            </div>
+
+            <h2 style="text-align:center; margin-top:25px;"><span class="lang-ru">🏆 ПОПУЛЯРНЫЕ ГЕНГИ ЗА ВСЁ ВРЕМЯ</span><span class="lang-en hidden-lang">🏆 MOST POPULAR GANGS OF ALL TIME</span></h2>
+            <p class="lang-ru" style="text-align:center; color:#cfbc93;">Эти генги оставили неизгладимый след в истории YBA. Их помнят и уважают до сих пор.</p>
+            <p class="lang-en hidden-lang" style="text-align:center; color:#cfbc93;">These gangs have left an indelible mark on YBA history. They are remembered and respected to this day.</p>
+
+            <div class="gang-card dt">
+                <h3>🩸 DARKTHRONE</h3>
+                <p style="color:#cfbc93; text-align:center;" class="lang-ru">Один из самых известных и влиятельных генгов в истории YBA</p>
+                <p style="color:#cfbc93; text-align:center;" class="lang-en hidden-lang">One of the most famous and influential gangs in YBA history</p>
+                <p class="lang-ru"><strong>Тематика:</strong> В генге состояли люди, которые слушают <strong>Sematary</strong> — культового андеграундного исполнителя, пишущего музыку в жанрах Хип-Хоп, Дрилл и Хоррор-Рэп. Мрачная и агрессивная эстетика идеально сочеталась с боевым стилем генга.</p>
+                <p class="lang-en hidden-lang"><strong>Theme:</strong> The gang consisted of people who listen to <strong>Sematary</strong> — a cult underground artist making music in Hip-Hop, Drill, and Horror-Rap genres.</p>
+                <p class="lang-ru"><strong>Прозвище участников:</strong> «Гробовщики» (Gravediggers) — название отражало их мрачную тематику и доминирование на серверах.</p>
+                <p class="lang-en hidden-lang"><strong>Nickname:</strong> "Gravediggers" — the name reflected their dark theme and server domination.</p>
+                <p class="lang-ru"><strong>Требования к вступлению:</strong> В генг принимали исключительно игроков, использующих связку <strong>Gold Experience Requiem + Boxing</strong> с обязательным использованием макросов для максимальной эффективности комбо.</p>
+                <p class="lang-en hidden-lang"><strong>Requirements:</strong> The gang exclusively accepted players using the <strong>Gold Experience Requiem + Boxing</strong> combo with mandatory macro usage for maximum combo efficiency.</p>
+                <p><strong><span class="lang-ru">Владельцы генга</span><span class="lang-en hidden-lang">Gang owners</span>:</strong></p>
+                <div class="member-list">
+                    <span class="member-tag">👑 UnclawsedThriller (Саня)</span>
+                    <span class="member-tag">👑 Axxtril (Ефим)</span>
+                </div>
+                <p><strong><span class="lang-ru">Популярные участники</span><span class="lang-en hidden-lang">Popular members</span>:</strong></p>
+                <div class="member-list">
+                    <span class="member-tag">Akklox (Rinat)</span>
+                    <span class="member-tag">PRIZNACKQQE</span>
+                    <span class="member-tag">SO_EZ9551</span>
+                    <span class="member-tag">CHORTIK</span>
+                </div>
+                <p style="margin-top:12px;">📹 <a href="https://www.youtube.com/watch?v=mVrMBbcFgpc" target="_blank" class="video-link"><span class="lang-ru">Презентация генга DarkThrone</span><span class="lang-en hidden-lang">DarkThrone presentation</span></a></p>
+            </div>
+
+            <div class="gang-card nk">
+                <h3>🇳🇬 NIGERIAN-KILLERS (NK)</h3>
+                <p style="color:#cfbc93; text-align:center;" class="lang-ru">Один из лучших генгов 2023-2024 года, абсолютный доминатор YBA</p>
+                <p style="color:#cfbc93; text-align:center;" class="lang-en hidden-lang">One of the best gangs of 2023-2024, absolute dominator of YBA</p>
+                <p class="lang-ru">Nigerian-Killers был безоговорочным лидером и доминировал над всей ЮБой в период 2023-2024 годов. Это был генг с высочайшим уровнем индивидуального скилла участников и идеальной командной организацией. Многие считали NK непобедимым в ОГВ и генг-варах. Их репутация была настолько высока, что одно упоминание NK на сервере заставляло противников покидать игру.</p>
+                <p class="lang-en hidden-lang">Nigerian-Killers was the undisputed leader and dominated all of YBA during 2023-2024. It was a gang with the highest level of individual member skill and perfect team organization. Many considered NK unbeatable in OGW and gang wars. Their reputation was so high that a single mention of NK on a server made opponents leave the game.</p>
+                <p style="color:#ff6b6b;"><strong>⚠️ <span class="lang-ru">Генг официально развалился в 2024 году по внутренним причинам.</span><span class="lang-en hidden-lang">The gang officially disbanded in 2024 due to internal reasons.</span></strong></p>
+                <p><strong><span class="lang-ru">Легендарные участники</span><span class="lang-en hidden-lang">Legendary members</span>:</strong></p>
+                <div class="member-list">
+                    <span class="member-tag">Attomex</span>
+                    <span class="member-tag">JorgeFloyd</span>
+                    <span class="member-tag">ObtoBip</span>
+                    <span class="member-tag">Maaw</span>
+                    <span class="member-tag">Sajenec</span>
+                    <span class="member-tag">SanyaPEP</span>
+                    <span class="member-tag">Koen</span>
+                </div>
+                <p style="margin-top:12px;">📹 <a href="https://www.youtube.com/watch?v=x9jT1j9xZ7g" target="_blank" class="video-link"><span class="lang-ru">Видео о развале NK</span><span class="lang-en hidden-lang">NK disband video</span></a></p>
+            </div>
+
+            <div class="gang-card twlz">
+                <h3>🌙 TWILIGHTZ (TWLZ)</h3>
+                <p style="color:#cfbc93; text-align:center;" class="lang-ru">Топ 1 ОГВ генг 2025 года, сильнейший организованный состав</p>
+                <p style="color:#cfbc93; text-align:center;" class="lang-en hidden-lang">Top 1 OGW gang of 2025, strongest organized roster</p>
+                <p class="lang-ru"><strong>История:</strong> Изначально генг был основан под названием <strong>«Zombie-Squad»</strong>. После ребрендинга в Twilightz команда совершила невероятный рывок и в 2025 году стала лучшим ОГВ генгом, последовательно побеждая всех сильнейших соперников. Их тактика и сыгранность считались эталоном.</p>
+                <p class="lang-en hidden-lang"><strong>History:</strong> Originally founded as <strong>"Zombie-Squad"</strong>. After rebranding to Twilightz, the team made an incredible leap and became the best OGW gang in 2025, consistently defeating all strongest opponents.</p>
+                <p style="color:#ff6b6b;"><strong>⚠️ <span class="lang-ru">На данный момент (2026 год) генг официально развалился и был преобразован в комьюнити-сервер.</span><span class="lang-en hidden-lang">Currently (2026) the gang has officially disbanded and converted into a community server.</span></strong></p>
+                <p style="margin-top:10px; color:#cfbc93;" class="lang-ru">Несмотря на распад, Twilightz навсегда остаётся легендой в истории YBA как сильнейший ОГВ генг своего времени. Их достижения до сих пор служат ориентиром для новых поколений игроков.</p>
+                <p style="margin-top:10px; color:#cfbc93;" class="lang-en hidden-lang">Despite disbanding, Twilightz forever remains a legend in YBA history as the strongest OGW gang of its time. Their achievements still serve as a benchmark for new generations of players.</p>
+            </div>
+
+            <p style="text-align:center; color:#cfbc93; margin-top:20px;" class="lang-ru">💡 Генги — это важнейшая часть культуры YBA. Они создают историю, конкуренцию и незабываемые моменты, которые обсуждают годами.</p>
+            <p style="text-align:center; color:#cfbc93; margin-top:20px;" class="lang-en hidden-lang">💡 Gangs are a crucial part of YBA culture. They create history, competition, and unforgettable moments that are discussed for years.</p>
+        </div>
+
+        <!-- ===== ГАЙД ===== -->
+        <div class="tab-content" id="content-guide">
+            <h2 class="lang-ru">📘 Как начать играть — Полный гайд для новичков</h2>
+            <h2 class="lang-en hidden-lang">📘 How to Start Playing — Complete Beginner's Guide</h2>
+            <p class="lang-ru" style="text-align:center; color:#cfbc93;">Следуй этим шагам, чтобы быстро освоиться в мире YBA и начать свой путь к вершинам PvP!</p>
+            <p class="lang-en hidden-lang" style="text-align:center; color:#cfbc93;">Follow these steps to quickly get comfortable in the world of YBA and start your journey to PvP heights!</p>
+            <div class="info-block">
+                <div class="stat-row"><span class="lang-ru"><strong>1. Прибытие в мир</strong></span><span class="lang-en hidden-lang"><strong>1. Arrival</strong></span><span class="lang-ru">Ты появляешься в Главном городе. Первым делом найди серверную квестовую линию и начни выполнять задания.</span><span class="lang-en hidden-lang">You spawn in the Main City. First, find the server quest line and start completing tasks.</span></div>
+                <div class="stat-row"><span class="lang-ru"><strong>2. Первый стенд</strong></span><span class="lang-en hidden-lang"><strong>2. First Stand</strong></span><span class="lang-ru">Используй обычную стрелу (Normal Arrow), чтобы получить случайный стенд. Не трать редкие стрелы на старте!</span><span class="lang-en hidden-lang">Use a Normal Arrow to get a random stand. Don't waste rare arrows at the start!</span></div>
+                <div class="stat-row"><span class="lang-ru"><strong>3. Прокачка</strong></span><span class="lang-en hidden-lang"><strong>3. Leveling</strong></span><span class="lang-ru">Убивай бандитов в Лесу, выполняй все доступные квесты, повышай уровень персонажа и навыки стенда.</span><span class="lang-en hidden-lang">Kill bandits in the Forest, complete all available quests, level up your character and stand skills.</span></div>
+                <div class="stat-row"><span class="lang-ru"><strong>4. Специализация</strong></span><span class="lang-en hidden-lang"><strong>4. Specialization</strong></span><span class="lang-ru">Найди учителя: Hamon (дыхание), Spin (вращение), Vampire (вампир) или Boxing (бокс). Выбери стиль под свой стенд!</span><span class="lang-en hidden-lang">Find a teacher: Hamon (breathing), Spin (rotation), Vampire, or Boxing. Choose a style that fits your stand!</span></div>
+                <div class="stat-row"><span class="lang-ru"><strong>5. Хранилище стендов</strong></span><span class="lang-en hidden-lang"><strong>5. Stand Storage</strong></span><span class="lang-ru">Используй новое хранилище Stand Storage, чтобы сохранять несколько стендов и переключаться между ними!</span><span class="lang-en hidden-lang">Use the new Stand Storage to save multiple stands and switch between them!</span></div>
+                <div class="stat-row"><span class="lang-ru"><strong>6. PvP и развитие</strong></span><span class="lang-en hidden-lang"><strong>6. PvP & Growth</strong></span><span class="lang-ru">Пробуй PvP-арены, участвуй в дуэлях и турнирах. Тренируй комбо на манекенах и учи мувсеты.</span><span class="lang-en hidden-lang">Try PvP arenas, participate in duels and tournaments. Practice combos on dummies and learn movesets.</span></div>
+                <p style="margin-top:15px; color:#f3cd54;" class="lang-ru">💡 <strong>Важный совет:</strong> Не трать редкие стрелы сразу — сохрани их для перерождения или выгодной торговли. Новое Stand Storage позволяет хранить несколько стендов одновременно!</p>
+                <p style="margin-top:15px; color:#f3cd54;" class="lang-en hidden-lang">💡 <strong>Important tip:</strong> Don't waste rare arrows right away — save them for rebirth or profitable trading. The new Stand Storage allows storing multiple stands at once!</p>
+            </div>
+            <div class="info-block">
+                <h3 class="lang-ru">📍 Важные локации для исследования</h3>
+                <h3 class="lang-en hidden-lang">📍 Important Locations to Explore</h3>
+                <p class="lang-ru">🏙️ <strong>Главный город</strong> — центр игры со всеми основными NPC и магазинами. Здесь ты найдёшь учителей специализаций.<br><br>
+                🌲 <strong>Лес</strong> — идеальное место для фарма на начальных этапах. Много бандитов и простых квестов.<br><br>
+                🏜️ <strong>Пустыня</strong> — локация с более сильными врагами и редкими ресурсами. Появляются редкие NPC.<br><br>
+                ❄️ <strong>Снежные горы</strong> — хардкорная зона с мощными боссами и данжами. Для игроков высокого уровня.</p>
+                <p class="lang-en hidden-lang">🏙️ <strong>Main City</strong> — game hub with all main NPCs and shops. Find specialization teachers here.<br><br>
+                🌲 <strong>Forest</strong> — ideal farming spot for early stages. Lots of bandits and simple quests.<br><br>
+                🏜️ <strong>Desert</strong> — location with stronger enemies and rare resources. Rare NPCs appear here.<br><br>
+                ❄️ <strong>Snowy Mountains</strong> — hardcore zone with powerful bosses and dungeons. For high-level players.</p>
+            </div>
+        </div>
+
+        <!-- ===== ЛОР ===== -->
+        <div class="tab-content" id="content-lore">
+            <h2 class="lang-ru">📜 Сюжетная основа YBA</h2>
+            <h2 class="lang-en hidden-lang">📜 YBA Story Basis</h2>
+            <div class="info-block">
+                <p class="lang-ru">Your Bizarre Adventure черпает вдохновение из всех частей культовой манги и аниме JoJo's Bizarre Adventure: Phantom Blood, Battle Tendency, Stardust Crusaders, Diamond is Unbreakable, Vento Aureo (Golden Wind), Stone Ocean, Steel Ball Run и Jojolion. Игроки могут воссоздавать легендарные битвы, собирать и эволюционировать стенды, а также исследовать огромный мир, наполненный отсылками и пасхалками.</p>
+                <p class="lang-en hidden-lang">Your Bizarre Adventure draws inspiration from all parts of the cult manga and anime JoJo's Bizarre Adventure: Phantom Blood, Battle Tendency, Stardust Crusaders, Diamond is Unbreakable, Vento Aureo (Golden Wind), Stone Ocean, Steel Ball Run, and Jojolion. Players can recreate legendary battles, collect and evolve stands, and explore a huge world filled with references and easter eggs.</p>
+                <p style="margin-top:12px;" class="lang-ru">Основная сюжетная линия игры разворачивается вокруг путешествия через параллельные временные линии и альтернативные реальности, где могущественные стенды сталкиваются в бесконечной битве за превосходство и контроль над реальностью. Главный антагонист в ключевых ивентах — легендарный Дио Брандо, но также важную роль играют Киро Йошикаге, Дьяволо и другие культовые злодеи вселенной JoJo.</p>
+                <p style="margin-top:12px;" class="lang-en hidden-lang">The main storyline unfolds around a journey through parallel timelines and alternate realities, where powerful stands clash in an endless battle for supremacy and control over reality. The main antagonist in key events is the legendary Dio Brando, but Kira Yoshikage, Diavolo, and other iconic villains of the JoJo universe also play important roles.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-box"><span style="font-size:2.5rem;">👻</span><h3 class="lang-ru">Призраки</h3><h3 class="lang-en hidden-lang">Ghosts</h3><p class="lang-ru">Духи прошлых владельцев стендов, хранящие секреты и редкие способности.</p><p class="lang-en hidden-lang">Spirits of past stand owners, holding secrets and rare abilities.</p></div>
+                <div class="feature-box"><span style="font-size:2.5rem;">⏳</span><h3 class="lang-ru">Временные линии</h3><h3 class="lang-en hidden-lang">Timelines</h3><p class="lang-ru">Альтернативные концовки и реальности, влияющие на всю историю игры.</p><p class="lang-en hidden-lang">Alternate endings and realities that influence the entire game's history.</p></div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <span class="lang-ru">⭐ Фанатский сайт по плейсу Your Bizarre Adventure. Мы не являемся официальным ресурсом.<br>Roblox, YBA и весь связанный контент принадлежат их законным владельцам и разработчикам.<br>Сделано с любовью к JoJo и сообществу YBA. © 2026</span>
+            <span class="lang-en hidden-lang">⭐ Fan site for Your Bizarre Adventure. We are not an official resource.<br>Roblox, YBA, and all related content belong to their rightful owners and developers.<br>Made with love for JoJo and the YBA community. © 2026</span>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('content-' + this.id.replace('tab-', '')).classList.add('active');
+            });
+        });
+
+        window.switchLanguage = function(lang) {
+            if (lang === 'ru') {
+                document.querySelectorAll('.lang-ru').forEach(el => el.classList.remove('hidden-lang'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.add('hidden-lang'));
+                document.getElementById('lang-ru').classList.add('active-lang');
+                document.getElementById('lang-en').classList.remove('active-lang');
+            } else {
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('hidden-lang'));
+                document.querySelectorAll('.lang-ru').forEach(el => el.classList.add('hidden-lang'));
+                document.getElementById('lang-en').classList.add('active-lang');
+                document.getElementById('lang-ru').classList.remove('active-lang');
+            }
+        };
+
+        let clickCount = 0;
+        document.getElementById('secretBtn').addEventListener('click', function() {
+            clickCount++;
+            if (clickCount >= 3) {
+                document.getElementById('mainBody').classList.toggle('dark-theme');
+                var ind = document.getElementById('themeIndicator');
+                ind.textContent = document.getElementById('mainBody').classList.contains('dark-theme') ? '🌑 Тёмная тема' : '💜 Стандартная';
+                ind.classList.add('show');
+                setTimeout(function() { ind.classList.remove('show'); }, 2500);
+                clickCount = 0;
+            }
+        });
+    </script>
+</body>
+</html>
